@@ -29,8 +29,8 @@ const Login = () => {
 
     const { control, handleSubmit, formState, reset } = useForm<LoginForm>({
         defaultValues: {
-            username: 'demo',
-            password: 'demo',
+            username: '',
+            password: '',
 
         },
         resolver: yupResolver(validationSchema)
