@@ -13,11 +13,13 @@ const useAuthApi = ({
 
 
     const mLogin = ({ username, password }) => {
+
+
         const currentState = store.getState().account
 
         if (username === currentState.user?.username && password === currentState.user?.pass) {
             navigation.navigate('Profile')
-            return dispatch(hasError(''))
+            return dispatch(hasError(null))
         }
         return dispatch(hasError('username or password not correct'))
     }

@@ -6,7 +6,7 @@ import { dispatch } from '../index';
 // ----------------------------------------------------------------------
 
 const initialState: DefaultRootStateProps['account'] = {
-    error: null,
+    error: undefined,
     user: {
         id_employee: 123,
         name_employee: "Abc",
@@ -64,7 +64,7 @@ export function setUpdateProfile(data) {
     };
 }
 
-export function hasError(text: string) {
+export function hasError(text: string | null) {
     return () => {
         dispatch(slice.actions.hasError(text));
     };

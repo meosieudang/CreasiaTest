@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Profile from '@/screens/Profile'
 import Container from '@/components/Container'
 import { vi } from '@/localization'
@@ -10,7 +10,9 @@ import { useForm, } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import TextFieldPrimary from '@/components/TextFieldPrimary'
 import useAuthApi from '@/hooks/useAuthApi'
-import { useSelector } from '@/store'
+import { useDispatch, useSelector } from '@/store'
+
+import { hasError } from '@/store/slices/account'
 
 const validationSchema = yup.object({
     username: yup.string().required(),
@@ -26,6 +28,7 @@ const Login = () => {
     const { mLogin } = useAuthApi({})
     const { error } = useSelector((state) => state.account);
     const [loading, setLoading] = useState(false)
+    const d = useDispatch()
 
     const { control, handleSubmit, formState, reset } = useForm<LoginForm>({
         defaultValues: {
@@ -36,6 +39,9 @@ const Login = () => {
         resolver: yupResolver(validationSchema)
     });
 
+    useEffect(() => {
+        d(hasError(null))
+    }, [])
 
     const onSubmit = (values: LoginForm) => {
         setLoading(true)
@@ -56,7 +62,7 @@ const Login = () => {
                 <TextFieldPrimary
                     error={Boolean(formState.errors['password'])}
                     helperText={Boolean(formState.errors['password']) && formState.errors['password']?.message} control={control} name='password' placeholder={vi.pass} />
-                {Boolean(error) && <Text style={{ marginVertical: 8, color: colors.orangeDark, textAlign: 'center' }}>{error}</Text>}
+                {(error) && <Text style={{ marginVertical: 8, color: colors.orangeDark, textAlign: 'center' }}>{error}</Text>}
 
                 <HStack style={{ justifyContent: 'space-between' }}>
                     <Pressable

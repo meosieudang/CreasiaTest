@@ -1,5 +1,5 @@
 export interface AccountStateProps {
-    error: object | string | null;
+    error: undefined | string | null;
     user: {
         id_employee: number;
         name_employee: string;
